@@ -9,6 +9,7 @@ import (
 
 	_ "gosite/docs"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
@@ -43,6 +44,11 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	// Configuração do middleware CORS
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*"} // Você pode ajustar isso para permitir apenas origens específicas
+	r.Use(cors.New(config))
 
 	r.POST("/notification/sendmail", func(c *gin.Context) {
 		var input struct {
