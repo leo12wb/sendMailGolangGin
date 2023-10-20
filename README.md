@@ -40,3 +40,6 @@ go get gopkg.in/gomail.v2
     "text": "This is the plain text email body."
     }' http://localhost:3000/notification/sendmail
 ```
+3. Test on fake email server
+
+   access the link [https://ethereal.email/create](https://ethereal.email/create) and create an SMTP service it will give you email, password, server url and service port.
