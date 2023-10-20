@@ -4,17 +4,13 @@ import (
 	"github.com/swaggo/swag"
 )
 
-const docTemplate = `{
-    "schemes": {{ marshal .Schemes }},
+const docJSON = `{
     "swagger": "2.0",
     "info": {
-        "description": "{{escape .Description}}",
-        "title": "{{.Title}}",
-        "contact": {},
-        "version": "{{.Version}}"
+        "description": "Aplicativo para envio de emails.",
+        "title": "SendMail API",
+        "version": "1.0"
     },
-    "host": "{{.Host}}",
-    "basePath": "{{.BasePath}}",
     "paths": {
         "/notification/sendmail": {
             "post": {
@@ -25,28 +21,27 @@ const docTemplate = `{
                 "produces": ["application/json"],
                 "parameters": [
                     {
-                        "name": "to",
                         "in": "body",
+                        "name": "email",
+                        "description": "Email details",
                         "required": true,
-                        "type": "string",
-                        "description": "Informe o email de envio",
-                        "schema": {}
-                    },
-                    {
-                        "name": "subject",
-                        "in": "body",
-                        "required": true,
-                        "type": "string",
-                        "description": "Informe o Título da Mensagem",
-                        "schema": {}
-                    },
-                    {
-                        "name": "text",
-                        "in": "body",
-                        "required": true,
-                        "type": "string",
-                        "description": "Informe o Corpo da Mensagem",
-                        "schema": {}
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "to": {
+                                    "type": "string",
+                                    "example": "recipient@example.com"
+                                },
+                                "subject": {
+                                    "type": "string",
+                                    "example": "Email Subject"
+                                },
+                                "text": {
+                                    "type": "string",
+                                    "example": "This is the plain text email body."
+                                }
+                            }
+                        }
                     }
                 ],
                 "responses": {
@@ -71,7 +66,7 @@ var SwaggerInfo = &swag.Spec{
     Title:            "SendMail API",
     Description:      "Aplicativo para envio de emails.",
     InfoInstanceName: "swagger",
-    SwaggerTemplate:  docTemplate,
+    SwaggerTemplate:  docJSON, // Substitua docTemplate pelo JSON
     LeftDelim:        "{{",
     RightDelim:       "}}",
 }

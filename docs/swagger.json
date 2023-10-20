@@ -1,54 +1,53 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Aplicativo para envio de emails.",
-        "title": "SendMail API",
-        "contact": {},
-        "version": "1.0"
+      "description": "Aplicativo para envio de emails.",
+      "title": "SendMail API",
+      "version": "1.0"
     },
     "paths": {
-        "/notification/sendmail": {
-            "post": {
-                "summary": "Enviar um email",
-                "description": "Envie um email com assunto e corpo personalizado",
-                "tags": ["Enviar um email"],
-                "consumes": ["application/json"],
-                "produces": ["application/json"],
-                "parameters": [
-                    {
-                        "name": "to",
-                        "in": "body",
-                        "required": true,
-                        "type": "string",
-                        "description": "Informe o email de envio",
-                        "schema": {}
-                    },
-                    {
-                        "name": "subject",
-                        "in": "body",
-                        "required": true,
-                        "type": "string",
-                        "description": "Informe o Titulo da Mensagem",
-                        "schema": {}
-                    },
-                    {
-                        "name": "text",
-                        "in": "body",
-                        "required": true,
-                        "type": "string",
-                        "description": "Informe o Corpo da Mensagem",
-                        "schema": {}
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "E-mail enviado com sucesso",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
+      "/notification/sendmail": {
+        "post": {
+          "summary": "Enviar um email",
+          "description": "Envie um email com assunto e corpo personalizado",
+          "tags": ["Enviar um email"],
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "email",
+              "description": "Email details",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "to": {
+                    "type": "string",
+                    "example": "recipient@example.com"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "example": "Email Subject"
+                  },
+                  "text": {
+                    "type": "string",
+                    "example": "This is the plain text email body."
+                  }
                 }
+              }
             }
+          ],
+          "responses": {
+            "200": {
+              "description": "E-mail enviado com sucesso",
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
         }
+      }
     }
-}
+  }
+  
