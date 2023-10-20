@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -45,23 +46,29 @@ func main() {
 			return
 		}
 
+		emailNaoResponda := os.Getenv("EMAIL_NAO_RESPONDA")
+		senhaNaoResponda := os.Getenv("SENHA_NAO_RESPONDA")
+		servidorSmtp := os.Getenv("SERVIDOR_SMTP")
+		portString := os.Getenv("PORT")
+		port, err := strconv.Atoi(portString)
+		if err != nil {
+			panic(err)
+		}
+
 		message := gomail.NewMessage()
-		message.SetHeader("From", "seu_email@example.com")
+		message.SetHeader("From", emailNaoResponda)
 		message.SetHeader("To", input.To)
 		message.SetHeader("Subject", input.Subject)
 		message.SetBody("text/plain", input.Text)
 
-		emailNaoResponda := os.Getenv("EMAIL_NAO_RESPONDA")
-		senhaNaoResponda := os.Getenv("SENHA_NAO_RESPONDA")
-
-		d := gomail.NewDialer("smtp.ethereal.email", 587, emailNaoResponda, senhaNaoResponda)
+		d := gomail.NewDialer(servidorSmtp, port, emailNaoResponda, senhaNaoResponda)
 
 		if err := d.DialAndSend(message); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 			return
 		}
 
-		fmt.Println("Email de teste enviado.")
+		fmt.Println("Email enviado.")
 		c.JSON(http.StatusOK, gin.H{"message": "Enviado"})
 	})
 
