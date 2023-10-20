@@ -47,7 +47,7 @@ func main() {
 
 	// Configuração do middleware CORS
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"*"} // Você pode ajustar isso para permitir apenas origens específicas
+	config.AllowOrigins = []string{"*"} 
 	r.Use(cors.New(config))
 
 	r.POST("/notification/sendmail", func(c *gin.Context) {
