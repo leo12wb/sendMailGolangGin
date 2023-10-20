@@ -7,10 +7,31 @@ import (
 	"os"
 	"strconv"
 
+	_ "gosite/docs"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"gopkg.in/gomail.v2"
 )
+
+// swagger info
+//	@title			SendMail API
+//	@version		1.0
+//	@description	Aplicativo para envio de emails.
+
+//	@Summary	Enviar um email
+//	@Schemes
+//	@Description	Envie um email com assunto e corpo personalizado
+//	@Tags			Enviar um email
+//	@Accept			json
+//	@Produce		json
+//	@Param			to		body		string	true	"Informe o email de envio"
+//	@Param			subject	body		string	true	"Informe o Titulo da Mensagem"
+//	@Param			text	body		string	true	"Informe o Corpo da Mensagem"
+//	@Success		200		{string}	true	"E-mail enviado com sucesso"
+//	@Router			/notification/sendmail [post]
 
 func main() {
 	// Carrega as variáveis de ambiente do arquivo .env
@@ -20,6 +41,8 @@ func main() {
     }
 
 	r := gin.Default()
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.POST("/notification/sendmail", func(c *gin.Context) {
 		var input struct {
@@ -68,7 +91,7 @@ func main() {
 			return
 		}
 
-		fmt.Println("Email enviado.")
+		fmt.Println("Email enviado com sucesso!")
 		c.JSON(http.StatusOK, gin.H{"message": "Enviado"})
 	})
 
